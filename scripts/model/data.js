@@ -24,19 +24,25 @@
     this.seattle_blkgrpce10 = opts.seattle_blkgrpce10
   };
 
-
-
-
-
-
   //inputData is the data from the API. This function sorts it, then assigns each Object
   //to a Participants object, and puts them all in an array called participants.allParticipants.
     participants.loadAll = function(inputData) {
-      participants.allParticipants = inputData.map(function(ele) {
+      participants.allParticipants = inputData.sort(function(a,b) {
+          return (new Date(b.date_pretty)) - (new Date(a.date_pretty));
+        }).map(function(ele) {
         return new Participant(ele);
       });
-      // console.log(traffic.allTraffic);
     };
+
+
+//  traffic.loadAll = function(inputData) {
+//    traffic.allTraffic = inputData.sort(function(a,b) {
+//     return (new Date(b.date_pretty)) - (new Date(a.date_pretty));
+//   }).map(function(ele) {
+//     return new Traffic(ele);
+//   });
+//   // console.log(traffic.allTraffic);
+// };
 
    participants.generalCall = function(){
     //example of basic call to api
@@ -44,7 +50,7 @@
       url: 'https://data.seattle.gov/resource/v9zk-3thk.json',
       type: 'GET',
       success: function(data){
-        // participants.loadAll();
+        participants.loadAll(data);
         console.log(data);
       }
     });
