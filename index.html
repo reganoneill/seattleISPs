@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Seattle ISP Info</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="styles/style.css" type="text/css">
+    <link rel="icon" href="#" type="image/x-icon">
+  <script id="aggregate-isp-info" type="text/x-handlebars-template">
+    <li>
+      <p>ISP: {{isp}}</p>
+      <p>Cost of service: {{cost_of_service}}</p>
+      <p>Actual download time: {{actual_download}}</div>
+      <p>Advertised download time: {{advertised_download}}</p>
+      <p>Actual upload time: {{actual_upload}}</div>
+      <p>Advertised upload time: {{advertised_upload}}</div>
+    </li>
+  </script>
+  </head>
+  <body>
+
+  <header>
+    <h3>Seattle ISP Information</h3>
+  </header>
+
+  <main>
+    <div class="showData"></div>
+  </main>
+
+  <footer>
+
+  </footer>
+
+
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"   integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="   crossorigin="anonymous"></script>
+    <script src="vendor/scripts/handlebars-v4.0.5.js"></script>
+    <script src="scripts/model/data.js"></script>
+    <!-- <script src="scripts/view/dataView.js"></script> -->
+    <!-- <script src="scripts/controller/dataController.js"></script> -->
+  </body>
+
+</html>
