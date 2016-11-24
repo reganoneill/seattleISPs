@@ -1,10 +1,8 @@
 (function(module) {
 
   var participants = {};
+
   participants.allParticipants = [];
-
-
-
 
 
   function Participant(opts) {
@@ -24,9 +22,25 @@
     this.seattle_blkgrpce10 = opts.seattle_blkgrpce10
   };
 
+
+  Participant.prototype.toHtml = function(scriptTemplateId) {
+    var template = Handlebars.compile($(scriptTemplateId).html());
+    return template(this);
+  };
+
+//this probably belongs in a 'view' file
+
+  participants.renderHomePage = function() {
+    participants.allparticipants.forEach(function(a){
+      $(".showData").append(a.toHtml("#aggregate-isp-info"));
+    });
+  };
+
+//end
+
   //inputData is the data from the API. This function sorts it, then assigns each Object
   //to a Participants object, and puts them all in an array called participants.allParticipants.
-    participants.loadAll = function(inputData) {
+  participants.loadAll = function(inputData) {
       participants.allParticipants = inputData.sort(function(a,b) {
           return (new Date(b.date_pretty)) - (new Date(a.date_pretty));
         }).map(function(ele) {
@@ -44,10 +58,11 @@
 //   // console.log(traffic.allTraffic);
 // };
 
-   participants.generalCall = function(){
+  participants.generalCall = function(){
     //example of basic call to api
+    var limit = '&$limit=5000';
     $.ajax({
-      url: 'https://data.seattle.gov/resource/v9zk-3thk.json',
+      url: 'https://data.seattle.gov/resource/v9zk-3thk.json?' + limit,
       type: 'GET',
       success: function(data){
         participants.loadAll(data);
