@@ -5,16 +5,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="styles/style.css" type="text/css">
     <link rel="icon" href="#" type="image/x-icon">
-  <script id="aggregate-isp-info" type="text/x-handlebars-template">
-    <li>
-      <p>ISP: {{isp}}</p>
-      <p>Cost of service: {{cost_of_service}}</p>
-      <p>Actual download time: {{actual_download}}</div>
-      <p>Advertised download time: {{advertised_download}}</p>
-      <p>Actual upload time: {{actual_upload}}</div>
-      <p>Advertised upload time: {{advertised_upload}}</div>
-    </li>
-  </script>
+    <script id="aggregate-isp-info" type="text/x-handlebars-template">
+      <section class="template-holder">
+        <h4>DATE: {{date_pretty}}</h4>
+        <p>ISP: {{isp}}</p>
+        <p>Cost of service: {{cost_of_service}}</p>
+        <p>Actual download time: {{actual_download}}</div>
+        <!-- <p>Advertised download time: {{advertised_download}}</p> -->
+        <p>Actual upload time: {{actual_upload}}</p>
+        <!-- <p>Advertised upload time: {{advertised_upload}}</p> -->
+      </section>
+    </script>
   </head>
   <body>
 

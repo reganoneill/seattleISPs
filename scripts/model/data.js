@@ -1,9 +1,9 @@
 (function(module) {
 
   var participants = {};
+  var averagesAndTotals = {};
 
   participants.allParticipants = [];
-
 
   function Participant(opts) {
     this.id = parseInt(opts.id),
@@ -14,14 +14,13 @@
     // this.advertised_upload = parseInt(opts.advertised_upload),
     this.connection_type = opts.connection_type,
     this.cost_of_service = opts.cost_of_service,
-    this.date_pretty = opts.date_pretty,
+    this.date_pretty = new Date(opts.date_pretty),
     this.isp = opts.isp,
     this.isp_user = opts.isp_user,
     this.min_rtt = parseInt(opts.min_rtt),
     this.timestamp = parseInt(opts.timestamp),
     this.seattle_blkgrpce10 = opts.seattle_blkgrpce10
   };
-
 
   Participant.prototype.toHtml = function(scriptTemplateId) {
     var template = Handlebars.compile($(scriptTemplateId).html());
@@ -31,11 +30,49 @@
 //this probably belongs in a 'view' file
 
   participants.renderHomePage = function() {
-    participants.allparticipants.forEach(function(a){
+    participants.allParticipants.forEach(function(a){
       $(".showData").append(a.toHtml("#aggregate-isp-info"));
     });
   };
 
+
+
+//create array which adds upload and download times based on name, and divides
+//them by the total number of elements in the arrays
+ participants.getAverages = function(array){
+      var actual_upload = 0;
+      var actual_download = 0;
+      var length = array.length;
+     array.forEach(function(a, b){
+
+       var uploaded = (isNaN(a.actual_upload)) ? 0 : parseInt(a.actual_upload);
+       var downloaded = (isNaN(a.actual_download)) ? 0 : parseInt(a.actual_download);
+       actual_upload += uploaded;
+       actual_download += downloaded;
+
+     });
+     console.log(parseInt((actual_upload)/length), 'upload average');
+     console.log(parseInt(actual_download/length), 'download average');
+ };
+//end average counter
+
+
+
+//create arrays based on isp name
+  participants.countIsps = function (){
+     participants.comcast = participants.allParticipants.filter(function(obj){
+      return obj.isp === 'comcast';
+    });
+     participants.centurylink = participants.allParticipants.filter(function(obj){
+      return obj.isp === 'centurylink';
+    });
+     participants.otherIsps = participants.allParticipants.filter(function(obj){
+      return (obj.isp !== 'comcast' && obj.isp !== 'centurylink');
+    });
+    console.log(participants.comcast.length, 'comcast');
+    console.log(participants.centurylink.length, 'centurylink');
+    console.log(participants.otherIsps.length, 'others');
+  }
 //end
 
   //inputData is the data from the API. This function sorts it, then assigns each Object
@@ -48,15 +85,6 @@
       });
     };
 
-
-//  traffic.loadAll = function(inputData) {
-//    traffic.allTraffic = inputData.sort(function(a,b) {
-//     return (new Date(b.date_pretty)) - (new Date(a.date_pretty));
-//   }).map(function(ele) {
-//     return new Traffic(ele);
-//   });
-//   // console.log(traffic.allTraffic);
-// };
 
   participants.generalCall = function(){
     //example of basic call to api
