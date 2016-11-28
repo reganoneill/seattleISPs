@@ -3,11 +3,28 @@
   <head>
     <title>Seattle ISP Info</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="styles/style.css" type="text/css">
+    <link rel="stylesheet" href="vendor/reset.css" type="text/css">
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link href="https://fonts.googleapis.com/css?family=Titillium+Web|Yrsa" rel="stylesheet">
+    <link rel="stylesheet" href="styles/base.css" type="text/css">
+    <link rel="stylesheet" href="styles/layout.css" type="text/css">
+    <link rel="stylesheet" href="styles/modules.css" type="text/css">
     <link rel="icon" href="#" type="image/x-icon">
     <script id="aggregate-isp-info" type="text/x-handlebars-template">
       <section class="template-holder">
         <h4>DATE: {{date_pretty}}</h4>
+        <p>ISP: {{isp}}</p>
+        <p>Cost of service: {{cost_of_service}}</p>
+        <p>Actual download time: {{actual_download}}</div>
+        <!-- <p>Advertised download time: {{advertised_download}}</p> -->
+        <p>Actual upload time: {{actual_upload}}</p>
+        <!-- <p>Advertised upload time: {{advertised_upload}}</p> -->
+      </section>
+    </script>
+    <script id="initial-display" type="text/x-handlebars-template">
+      <section class="initial-display-holder">
+        <h5>It will come as no surprise that Comcast and Centrylink are the big players in Seattle's market.</h5>
+        <div class="initial-isps-intro"></div>
         <p>ISP: {{isp}}</p>
         <p>Cost of service: {{cost_of_service}}</p>
         <p>Actual download time: {{actual_download}}</div>
@@ -24,7 +41,35 @@
   </header>
 
   <main>
-    <div class="showData"></div>
+    <div class="topMain">
+      <p>Using data provided by the <a href="https://data.seattle.gov/City-Business/Broadband-Speed-Test/7rui-4ksb">City Of Seattle</a>, this website makes use of a public API to keep track of information regarding internet service providers in Seattle.</p>
+      <p>We encourage you to examine some data and compare it against your internet billing and speed details. You can take a quick speed test <a href="http://www.measurementlab.net/tools/ndt/">here</a>.</p>
+    </div>
+    <div class="separator"></div>
+
+    <div class="showData col-md-12">
+      <div class="orderIspsTop col-md-3">
+        <p class="ispName"></p>
+        <p class="ispPercentage"></p>
+      </div>
+
+      <div class="orderIspsTop col-md-3">
+        <p class="ispName"></p>
+        <p class="ispPercentage"></p>
+      </div>
+
+      <div class="orderIspsTop col-md-3">
+        <p class="ispName"></p>
+        <p class="ispPercentage"></p>
+      </div>
+
+      <div class="orderIspsTop col-md-3">
+        <p class="ispName"></p>
+        <p class="ispPercentage"></p>
+      </div>
+
+    </div>
+
   </main>
 
   <footer>
@@ -34,6 +79,7 @@
 
     <script src="https://code.jquery.com/jquery-3.1.1.min.js"   integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="   crossorigin="anonymous"></script>
     <script src="vendor/scripts/handlebars-v4.0.5.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script src="scripts/model/data.js"></script>
     <!-- <script src="scripts/view/dataView.js"></script> -->
     <!-- <script src="scripts/controller/dataController.js"></script> -->
