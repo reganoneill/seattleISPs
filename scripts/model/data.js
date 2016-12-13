@@ -83,19 +83,57 @@
     console.log(highestPrice.length, 'highestPrice array');
     //end first part of summaryView
     //second part of summaryView
-      // var totalUp = 0;
-      // var totalDown = 0;
-      // participants.allParticipants.forEach(function(a){
-      //   totalUp += a.actual_upload;
-      //   totalDown += a.actual_download;
-      // });
-      // console.log(totalUp);
-      // console.log(totalDown);
-    //end second part of summaryView
+    /////////////////////////////////
+    //low price info
+    var lowPriceComcast = [];
+    // var lowPriceComcastUploads = [];
+    var lowPriceComcastUp = 0;
+    // var lowPriceComcastDownloads = []
+    var lowPriceComcastDown = 0;
+    //centurylink low price info
+    var lowCenturylink = [];
+    var lowPriceCentUp = 0;
+    // var lowCenturylinkUploads = [];
+    var lowPriceCentDown = 0;
+    // var lowCenturylinkDownloads = [];
+    //wave low price info
+    var lowWave = [];
+    var lowWaveUploads = [];
+    var lowWaveUp = 0;
+    // var lowWaveDownloads = [];
+    var lowWaveDown = 0;
+    //other Isps low price info
+    var lowOther = [];
+    // var lowOtherUploads = [];
+    var lowOtherUp = 0;
+    // var lowOtherDownloads = [];
+    var lowOtherDown = 0;
+    lowestPrice.forEach(function(a){
+      if(a.isp === 'comcast' || a.isp_user === 'comcast'){
+        lowPriceComcast.push(a);
+        lowPriceComcastUp += parseInt(a.actual_upload);
+        lowPriceComcastDown += (a.actual_download);
+      } else if (a.isp === 'centurylink' || a.isp_user === 'centurylink'){
+        lowCenturylink.push(a);
+        lowPriceCentUp += parseInt(a.actual_upload);
+        lowPriceCentDown += parseInt(a.actual_download);
+      } else if(a.isp === 'wave' || a.isp_user === 'wave'){
+        lowWave.push(a);
+        lowWaveUploads.push(a.actual_upload);
+        lowWaveUp += parseInt(a.actual_upload);
+        lowWaveDown += parseInt(a.actual_download);
+      } else {
+        lowOther.push(a);
+        lowOtherUp += parseInt(a.actual_upload);
+        lowOtherDown += parseInt(a.actual_download);
+      }
+    });
+    //some of this data is messed up...the upload times for Wave customers is whack.
+    console.log(lowWaveUploads);
+    console.log('Of the ' + lowestPrice.length +' participants paying $25-$50 per month for their internet, ' + lowPriceComcast.length + ' are Comcast customers. Their average upload time is ' + (lowPriceComcastUp/lowPriceComcast.length) + '. Their average download time is ' + (lowPriceComcastDown/lowPriceComcast.length) + '.'  + lowCenturylink.length + ' are Centurylink customers. Their average upload time is ' + (lowPriceCentUp/lowCenturylink.length) + '. Their average download time is ' + (lowPriceCentDown/lowCenturylink.length) + '. ' + lowWave.length +  ' are Wave customers. They get about ' + (lowWaveUp/lowWave.length) + ' Mpbs of upload and ' + (lowWaveDown/lowWave.length) + ' Mbps of download.');
 
 
-
-  }
+  };
   //end averge speed section
 
 participants.onlyUploadAndDownloadTotals = function(){
@@ -120,7 +158,7 @@ participants.onlyUploadAndDownloadTotals = function(){
     array.forEach(function(obj){
       if (obj.cost_of_service === '25_50'){
         lowestPriceRange.push(obj);
-      } else if(obj.cost_of_service === '50_75'){
+      } else if (obj.cost_of_service === '50_75'){
         lowerMiddlePriceRange.push(obj);
       } else if (obj.cost_of_service === '75_100'){
         middlePriceRange.push(obj);
@@ -161,6 +199,7 @@ participants.onlyUploadAndDownloadTotals = function(){
 
 //write a function which keeps track of each isps market share
 participants.marketShare = function(){
+  participants.countIsps();
   function compareNumbers(a, b) {
     return b - a;
   };
@@ -207,18 +246,6 @@ participants.marketShare = function(){
   } else {
     console.log('something is wrong');
   }
-  //if either comcast, centurylink, wave, or otherIsps is equal to the 0 or 1st
-  //index values in the
-
-
-  //loop through each array (above) and check which one's length is equal to the
-  //first[0] and second[1] index values in the sorted array. Then grab the isp name
-  //from those arrays so they can be passed to the DOM
-  // for (var x=0; x<=sorted.length; x++) {
-  //   if(sorted[0] === participants.comcast.length || sorted[0] === participants.centurylink.length ||sorted[0] === participants.wave.length || sorted[0] === participants.otherIsps.length) {
-  //
-  //   }
-  // }
 
 }
 
@@ -226,16 +253,16 @@ participants.marketShare = function(){
   participants.countIsps = function (){
 
      participants.comcast = participants.allParticipants.filter(function(obj){
-      return obj.isp === 'comcast';
+      return (obj.isp === 'comcast' || obj.isp_user === 'comcast');
     });
      participants.centurylink = participants.allParticipants.filter(function(obj){
-      return obj.isp === 'centurylink';
+      return (obj.isp === 'centurylink' || obj.isp_user === 'centurylink');
     });
     participants.wave = participants.allParticipants.filter(function(obj){
-     return obj.isp === 'AS11404 vanoppen.biz LLC' || obj.isp === 'wave';
+     return (obj.isp === 'AS11404 vanoppen.biz LLC' || obj.isp === 'wave' || obj.isp_user === 'wave');
    });
     participants.otherIsps = participants.allParticipants.filter(function(obj){
-      return (obj.isp !== 'comcast' && obj.isp !== 'centurylink' && obj.isp !== 'AS11404 vanoppen.biz LLC' || obj.isp === 'wave');
+      return (obj.isp !== 'comcast' && obj.isp !== 'centurylink' && obj.isp !== 'AS11404 vanoppen.biz LLC' && obj.isp !== 'wave' && obj.isp_user !== 'comcast' && obj.isp_user !== 'centurylink' && obj.isp_user !== 'wave');
     });
     console.log(participants.comcast.length, 'comcast');
     console.log(participants.centurylink.length, 'centurylink');
